@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fashion Style - Tienda de Ropa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primario: #6a0dad;
+      --secundario: #ffd700;
+      --fondo: #f9f9f9;
+      --texto: #333;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--fondo);
+      color: var(--texto);
+    }
+
+    header {
+      background: var(--primario);
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    nav {
+      background: #4b0386;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+    }
+
+    nav .menu a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    nav .menu a:hover {
+      text-decoration: underline;
+    }
+
+    .carrito {
+      color: white;
+      font-weight: bold;
+    }
+
+    .filtros {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .filtros button {
+      margin: 5px;
+      padding: 10px 20px;
+      background: var(--primario);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .filtros button:hover {
+      background: #4b0386;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .producto {
+      background: white;
+      border-radius: 15px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .producto:hover {
+      transform: translateY(-5px);
+    }
+
+    .producto img {
+      width: 100%;
+      height: 250px;
+      max-height: 250px;
+      object-fit: cover;
+      border-radius: 10px;
+      background-color: #eee;
+      cursor: pointer;
+    }
+
+    .producto h3 {
+      margin: 10px 0 5px;
+      cursor: pointer;
+    }
+
+    .producto p {
+      margin: 5px 0;
+    }
+
+    .producto button {
+      background: var(--secundario);
+      border: none;
+      padding: 8px 16px;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .producto button:hover {
+      background: #e6c200;
+    }
+
+    footer {
+      background-color: var(--primario);
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+
+    .carrito span {
+      background: var(--secundario);
+      color: black;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    /* Modal estilos */
+    #modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 99;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #modal .contenido {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      text-align: center;
+    }
+
+    #modal .contenido img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    #modal .contenido span {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>👗 Fashion Style</h1>
+    <p>Moda para todos los estilos</p>
+  </header>
+
+  <nav>
+    <div class="menu">
+      <a href="#">🏠 Inicio</a>
+      <a href="#">👔 Hombres</a>
+      <a href="#">👗 Mujeres</a>
+      <a href="#">🧒 Niños</a>
+    </div>
+    <div class="carrito">
+      🛒 Carrito: <span id="contador">0</span>
+    </div>
+  </nav>
+
+  <section class="filtros">
+    <button onclick="filtrar('todos')">🔄 Todos</button>
+    <button onclick="filtrar('hombre')">👔 Hombres</button>
+    <button onclick="filtrar('mujer')">👗 Mujeres</button>
+    <button onclick="filtrar('nino')">🧒 Niños</button>
+  </section>
+
+  <section class="container" id="productos">
+    <div class="producto" data-categoria="hombre">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSd_93H8z7VPVmrFJXAZ5JyfWJXe-o91CsW2A&s" alt="" onclick="mostrarModal(this.src, 'Ropa Elegante 👔', 'S/28.00')">
+      <h3 onclick="mostrarModal('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSd_93H8z7VPVmrFJXAZ5JyfWJXe-o91CsW2A&s', 'Ropa Elegante 👔', 'S/28.00')">Ropa Elegante 👔</h3>
+      <p>S/28.00</p>
+      <button onclick="agregarCarrito()">➕ Agregar</button>
+    </div>
+
+    <div class="producto" data-categoria="mujer">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcS9jOY2EdmShP2_0nXyXhlTVDgmcYIUpc-A&s" alt="" onclick="mostrarModal(this.src, 'Vestido Rojo 🔥', 'S/45.00')">
+      <h3 onclick="mostrarModal('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcS9jOY2EdmShP2_0nXyXhlTVDgmcYIUpc-A&s', 'Vestido Rojo 🔥', 'S/45.00')">Vestido Rojo 🔥</h3>
+      <p>S/45.00</p>
+      <button onclick="agregarCarrito()">➕ Agregar</button>
+    </div>
+
+    <div class="producto" data-categoria="nino">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRA0L3o-UwaTacjgJrsvJ2piQLdZTbHqahHCn0VbOxCzsJk9WxF_K0ZGbgM2TaPFdE9q4&usqp=CAU" alt="" onclick="mostrarModal(this.src, 'Chaqueta Niño 🧒', 'S/35.00')">
+      <h3 onclick="mostrarModal('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRA0L3o-UwaTacjgJrsvJ2piQLdZTbHqahHCn0VbOxCzsJk9WxF_K0ZGbgM2TaPFdE9q4&usqp=CAU', 'Chaqueta Niño 🧒', 'S/35.00')">Chaqueta Niño 🧒</h3>
+      <p>S/35.00</p>
+      <button onclick="agregarCarrito()">➕ Agregar</button>
+    </div>
+
+    <div class="producto" data-categoria="mujer">
+      <img src="https://i.pinimg.com/736x/01/8e/4f/018e4f2a77f51652ce3a8496df7537c1.jpg" alt="" onclick="mostrarModal(this.src, 'Jeans Casual 👖', 'S/32.00')">
+      <h3 onclick="mostrarModal('https://i.pinimg.com/736x/01/8e/4f/018e4f2a77f51652ce3a8496df7537c1.jpg', 'Jeans Casual 👖', 'S/32.00')">Jeans Casual 👖</h3>
+      <p>S/32.00</p>
+      <button onclick="agregarCarrito()">➕ Agregar</button>
+    </div>
+
+    <div class="producto" data-categoria="hombre">
+      <img src="https://pbs.twimg.com/media/FmmCyrhXEAEbUOK.jpg" alt="" onclick="mostrarModal(this.src, 'Casaca Urbana 🧥', 'S/60.00')">
+      <h3 onclick="mostrarModal('https://pbs.twimg.com/media/FmmCyrhXEAEbUOK.jpg', 'Casaca Urbana 🧥', 'S/60.00')">Casaca Urbana 🧥</h3>
+      <p>S/60.00</p>
+      <button onclick="agregarCarrito()">➕ Agregar</button>
+    </div>
+
+    <div class="producto" data-categoria="nino">
+      <img src="https://http2.mlstatic.com/D_NQ_NP_729554-MPE87327546094_072025-O-polo-cheems-meme-unisex-diseno-sublimado.webp" alt="" onclick="mostrarModal(this.src, 'Polo Divertido 🎽', 'S/18.00')">
+      <h3 onclick="mostrarModal('https://http2.mlstatic.com/D_NQ_NP_729554-MPE87327546094_072025-O-polo-cheems-meme-unisex-diseno-sublimado.webp', 'Polo Divertido 🎽', 'S/18.00')">Polo Divertido 🎽</h3>
+      <p>S/18.00</p>
+      <button onclick="agregarCarrito()">➕ Agregar</button>
+    </div>
+  </section>
+
+  <footer>
+    📞 Contáctanos: contacto@fashionstyle.com | 📍 Cerro, Perú <br />
+    © 2025 Fashion Style - Todos los derechos reservados.
+  </footer>
+
+  <!-- Modal Vista Rápida -->
+  <div id="modal">
+    <div class="contenido">
+      <span onclick="cerrarModal()">&times;</span>
+      <img id="modalImagen" src="" alt="">
+      <h3 id="modalTitulo"></h3>
+      <p id="modalPrecio" style="font-weight:bold;"></p>
+      <p id="modalDescripcion" style="font-size:0.9em; color:#555;">Ropa de excelente calidad y diseño exclusivo para ti.</p>
+      <button onclick="agregarCarrito()" style="background:#ffd700; border:none; padding:10px 20px; border-radius:20px; font-weight:bold; cursor:pointer;">➕ Agregar al carrito</button>
+    </div>
+  </div>
+
+  <script>
+    let contador = 0;
+
+    function agregarCarrito() {
+      contador++;
+      document.getElementById('contador').textContent = contador;
+    }
+
+    function filtrar(categoria) {
+      const productos = document.querySelectorAll('.producto');
+      productos.forEach(prod => {
+        prod.style.display = (categoria === 'todos' || prod.dataset.categoria === categoria)
+          ? 'block' : 'none';
+      });
+    }
+
+    function mostrarModal(imgSrc, titulo, precio) {
+      document.getElementById('modalImagen').src = imgSrc;
+      document.getElementById('modalTitulo').textContent = titulo;
+      document.getElementById('modalPrecio').textContent = precio;
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    function cerrarModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
